@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f2e9">
+  <title>Little Listing Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Little Listing Studio home"><span class="brand-mark">✳</span><span>little listing<span class="brand-light"> studio</span></span></a>
+    <div class="top-right"><span class="privacy-dot"></span><span>Private by default</span><button id="settingsBtn" class="settings-button" aria-label="Open settings">⚙</button></div>
+  </header>
+
+  <main id="top">
+    <section class="intro">
+      <div class="eyebrow">A tiny tool for independent makers</div>
+      <h1>Make your next listing<br><em>feel like you.</em></h1>
+      <p>Turn the details you already know into a listing customers can picture—and your shop can sell.</p>
+      <div class="open-note"><span>✦</span> Runs with a local open model. Your product ideas stay on this device.</div>
+    </section>
+
+    <section class="workspace" aria-label="Listing generator">
+      <div class="form-card">
+        <div class="card-heading"><div><span class="step">01</span><h2>Tell us about your product</h2></div><span class="required">* required</span></div>
+        <form id="listingForm">
+          <label for="productName">Product name <span>*</span></label>
+          <input id="productName" name="productName" maxlength="90" placeholder="e.g. Hand-thrown speckled breakfast bowl" required>
+          <div class="field-row">
+            <div><label for="category">Category</label><select id="category"><option>Home & living</option><option>Jewelry</option><option>Clothing & accessories</option><option>Art & prints</option><option>Food & drink</option><option>Other</option></select></div>
+            <div><label for="platform">Where are you listing?</label><select id="platform"><option>Etsy</option><option>Shopify</option><option>eBay</option><option>Instagram</option><option>Other</option></select></div>
+          </div>
+          <label for="details">The good details <span>*</span></label>
+          <textarea id="details" rows="5" maxlength="900" placeholder="Materials, size, how it's made, what makes it special, care instructions…" required></textarea>
+          <div class="under-input"><span>Specific details make better copy.</span><span id="charCount">0 / 900</span></div>
+          <div class="field-row small-row">
+            <div><label for="audience">Made for</label><input id="audience" maxlength="120" placeholder="e.g. slow-morning people"></div>
+            <div><label for="tone">Your shop's voice</label><select id="tone"><option>Warm & thoughtful</option><option>Playful & bright</option><option>Minimal & refined</option><option>Earthy & handmade</option><option>Clear & practical</option></select></div>
+          </div>
+          <div class="form-actions"><button class="generate" id="generateBtn" type="submit"><span>✦</span> Write my listing <span class="arrow">↗</span></button><span class="generation-hint">Usually takes a few seconds</span></div>
+        </form>
+      </div>
+
+      <div class="result-card" id="resultCard">
+        <div class="result-head"><div><span class="step">02</span><h2>Your listing</h2></div><span id="modeBadge" class="mode-badge">READY WHEN YOU ARE</span></div>
+        <div id="emptyState" class="empty-state"><div class="sparkle">✳</div><h3>A good listing starts<br>with your details.</h3><p>Fill in the product notes and we’ll shape them into a title, description, and search tags.</p><div class="sample-note">✦ &nbsp;Your voice. Your product. No generic filler.</div></div>
+        <div id="output" class="output hidden">
+          <div class="output-section"><div class="output-label">TITLE <button class="copy" data-copy="titleOut">Copy</button></div><div id="titleOut" class="listing-title" contenteditable="true" aria-label="Generated title"></div></div>
+          <div class="output-section"><div class="output-label">DESCRIPTION <button class="copy" data-copy="descriptionOut">Copy</button></div><div id="descriptionOut" class="listing-description" contenteditable="true" aria-label="Generated description"></div></div>
+          <div class="output-section"><div class="output-label">SEARCH TAGS <button class="copy" data-copy="tagsOut">Copy</button></div><div id="tagsOut" class="tags"></div></div>
+          <div class="result-actions"><button id="copyAll" class="secondary-button">Copy everything</button><button id="saveBtn" class="secondary-button save-button">♡ Save draft</button></div>
+        </div>
+        <div class="model-footer"><span class="model-icon">◉</span><span id="modelStatus">Local mode · Your details never leave this browser</span><button id="modelLink" class="text-button">Model settings</button></div>
+      </div>
+    </section>
+    <section class="bottom-strip"><div><span class="strip-icon">⌂</span><span><strong>Your work stays yours.</strong> Local model support means no per-listing API bill and no product data sent away.</span></div><button id="howBtn">How it works <span>↗</span></button></section>
+    <footer><span>MADE FOR THE PEOPLE WHO MAKE THINGS</span><span>Little Listing Studio <span class="footer-dot">✳</span></span></footer>
+  </main>
+
+  <dialog id="settingsDialog" class="modal"><form method="dialog" class="modal-inner"><button class="modal-close" aria-label="Close">×</button><div class="eyebrow">OPEN MODEL SETTINGS</div><h2>Keep your ideas close.</h2><p>Connect a local Ollama model for custom copy. The app sends your product details only to the Ollama server you choose. Without a connection, a built-in writer still works offline.</p><label for="ollamaUrl">Ollama address</label><input id="ollamaUrl" value="http://localhost:11434" spellcheck="false"><label for="modelName">Model name</label><input id="modelName" value="qwen2.5:3b" spellcheck="false"><div class="model-help">In Ollama, pull a model such as <code>ollama run qwen2.5:3b</code>, then leave Ollama running. For browser access, Ollama may need its CORS origin set to this local page.</div><div class="modal-actions"><button type="button" id="testModel" class="secondary-button">Check connection</button><button class="generate" value="save">Save settings <span class="arrow">↗</span></button></div><div id="settingsStatus" class="settings-status" role="status"></div></form></dialog>
+  <dialog id="howDialog" class="modal"><form method="dialog" class="modal-inner"><button class="modal-close" aria-label="Close">×</button><div class="eyebrow">OPEN INNOVATION, IN PRACTICE</div><h2>Small shop. Your rules.</h2><p>Most listing tools send every product note to a paid cloud API. Little Listing Studio can instead use an open-weight model running on your own computer through Ollama. That means you can choose or replace the model, keep drafts local, and avoid a fee for every listing.</p><p>The built-in writer also works without a model or internet connection, so you can try the workflow before setting anything up.</p><button class="generate modal-done">Got it</button></form></dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
